@@ -559,7 +559,7 @@ function avaliar($json){
     echo json_encode($array_response);
 }
 
-function efetivaAvaliacao($json){
+function efetivarAvaliacao($json){
 	$array_response = array();
 	$idUsuario = $json->id_usuario;
 	$idHospital = $json->id_hospital;

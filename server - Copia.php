@@ -535,32 +535,6 @@ Obs, "op" varia entre "insert" e "update"
 */
 function avaliar($json){
 	$array_response = array();
-
-	$nota = 0;
-	$texto = $json->texto;
-
-	$command = "python3.4 entrada.py";
-	$command .= " $texto 2>&1";
-
-	$pid = exec( $command);
-
-	if($pid=="regular"){
-		$nota=1;
-	}else if($pid=="bom"){
-		$nota=2;
-	}else if($pid=="otimo"){
-		$nota=3;
-	}
-
-	$array_response["texto"]=$texto;
-	$array_response["nota"]=$nota;
-	$array_response["pid"]=$pid;
-
-    echo json_encode($array_response);
-}
-
-function efetivaAvaliacao($json){
-	$array_response = array();
 	$idUsuario = $json->id_usuario;
 	$idHospital = $json->id_hospital;
 	$nota = $json->nota;
@@ -600,9 +574,7 @@ function efetivaAvaliacao($json){
 			$array_response["op"]="insert";
 		}
 	}
-
     echo json_encode($array_response);
-	
 }
 
 /*

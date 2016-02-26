@@ -563,7 +563,8 @@ function efetivarAvaliacao($json){
 	$array_response = array();
 	$idUsuario = $json->id_usuario;
 	$idHospital = $json->id_hospital;
-	$nota = $json->nota;
+	$nota_gerada = $json->nota_gerada;
+	$nota_efetivada = $json->nota_efetivada;
 	$texto = $json->texto;
 
 	/*
@@ -577,7 +578,7 @@ function efetivarAvaliacao($json){
 
 	if($avaliacao){
 		$idAv = $avaliacao["id"];
-		$sql = "update avalia_hospital set nota = '$nota', comentario = '$texto' where id = $idAv";
+		$sql = "update avalia_hospital set nota = '$nota_efetivada', comentario = '$texto' where id = $idAv";
 		$update = DB::execute($sql);
 		if($update===true){
 			$array_response["success"]=true;
@@ -588,7 +589,7 @@ function efetivarAvaliacao($json){
 			$array_response["op"]="update";
 		}
 	}else{
-		$sql = "insert into avalia_hospital (id_usuario, id_hospital, nota, comentario) values ($idUsuario, $idHospital, $nota, '$texto')";
+		$sql = "insert into avalia_hospital (id_usuario, id_hospital, nota, comentario) values ($idUsuario, $idHospital, $nota_efetivada, '$texto')";
 		$salvar = DB::execute($sql);
 
 		if($salvar===true){
@@ -600,6 +601,9 @@ function efetivarAvaliacao($json){
 			$array_response["op"]="insert";
 		}
 	}
+
+	$sql = "insert into historico_sentimento (id_usuario, id_hospital, texto, nota_gerada, nota_efetivada) values ($idUsuario, $idHospital, '$texto', $nota_gerada, $nota_efetivada)";
+	$salvar = DB::execute($sql);
 
     echo json_encode($array_response);
 	
